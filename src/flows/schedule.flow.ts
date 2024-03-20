@@ -4,9 +4,13 @@ import { getHistoryParse, handleHistory } from "../utils/handleHistory";
 import { generateTimer } from "../utils/generateTimer";
 import { getCurrentCalendar } from "../services/calendar";
 import { getFullCurrentDate } from "src/utils/currentDate";
+import { GPT3, GPT4 } from "src/utils/gpts";
 
 const PROMPT_SCHEDULE = `
-Como ingeniero de inteligencia artificial especializado en la programación de reuniones, tu objetivo es analizar la conversación y determinar la intención del cliente de programar una reunión, así como su preferencia de fecha y hora. La reunión durará aproximadamente 45 minutos y solo puede ser programada entre las 9am y las 4pm, de lunes a viernes, y solo para la semana en curso.
+Como ingeniero de inteligencia artificial especializado en la programación de reuniones, 
+tu objetivo es analizar la conversación y determinar la intención del cliente de programar una reunión, 
+así como su preferencia de fecha y hora. La reunión durará aproximadamente 1 hora y solo puede ser programada entre las 9am y las 4pm, 
+de lunes a viernes, y solo para la semana en curso.
 
 Fecha de hoy: {CURRENT_DAY}
 
@@ -61,7 +65,7 @@ const flowSchedule = addKeyword(EVENTS.ACTION).addAction(async (ctx, { extension
             role: 'user',
             content: `Cliente pregunta: ${ctx.body}`
         }
-    ], 'gpt-4')
+    ], GPT4)
 
     await handleHistory({ content: text, role: 'assistant' }, state)
 

@@ -3,6 +3,7 @@ import AIClass from "../services/ai";
 import { clearHistory, handleHistory, getHistoryParse } from "../utils/handleHistory";
 import { getFullCurrentDate } from "../utils/currentDate";
 import { appToCalendar } from "src/services/calendar";
+import { GPT3, GPT4 } from "src/utils/gpts";
 
 const generatePromptToFormatDate = (history: string) => {
     const prompt = `Fecha de Hoy:${getFullCurrentDate()}, Basado en el Historial de conversacion: 
@@ -46,7 +47,7 @@ const flowConfirm = addKeyword(EVENTS.ACTION).addAction(async (_, { flowDynamic 
             role: 'system',
             content: generatePromptToFormatDate(history)
         }
-    ], 'gpt-4')
+    ], GPT4)
 
     await handleHistory({ content: text, role: 'assistant' }, state)
     await flowDynamic(`¿Me confirmas fecha y hora?: ${text}`)
